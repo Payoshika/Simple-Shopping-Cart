@@ -47,15 +47,15 @@ var newItemCreation = function(){
     var newUnitPrice = parseFloat($("tr:last() td.unit-price").children("input").val())
     var newQuantity = parseFloat($("tr:last() td.quantity input").val())
     var newInsert =$(`
-      <tr class="test">
+      <tr class="test border-bottom">
         <td>${newName}</td>
         <td class="unit-price">${newUnitPrice}</td>
         <td class="quantity">
-          <label for="">QTY</label>
+          <label for="">QTY:</label>
           <input class="input-value" type="text" value=${newQuantity}>
-          <button class="cancel">Cancel</button>
+          <button class="cancel btn btn-light">Cancel</button>
         </td>
-        <td class="sub-total"></td>
+        <td class="sub-total text-center"></td>
       </tr>`)
     newInsert.insertBefore($("tr").last())
     subTotalCreater();

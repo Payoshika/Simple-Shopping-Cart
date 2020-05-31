@@ -1,0 +1,7 @@
+ body{
+   width: 80rem;
+   overflow-x: scroll;
+ }
+ .input-value{
+   width: 5rem;
+ }
