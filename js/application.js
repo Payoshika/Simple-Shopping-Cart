@@ -1,7 +1,7 @@
 
 var priceArray =[]
 
-// total price calculater
+// subTotal price calculater
 var subTotalCreater = function(){
   $(".test").each(function(index,value){
     var quantity = $(value).children(".quantity").children("input").val()
@@ -14,16 +14,19 @@ var subTotalCreater = function(){
 
 // total price calculater
 var totalPriceFigure = function(){
-  var finalPrice = priceArray.reduce(function(total, value){
-    return total + value
-  },0)
-  $(".total-price h2:nth-child(2)").html(`$${finalPrice}`)
-  priceArray =[]
+  $(".calculater").on("click", function(){
+    subTotalCreater();
+    var finalPrice = priceArray.reduce(function(total, value){
+      return total + value
+    },0)
+    $(".total-price h2:nth-child(2)").html(`$${finalPrice}`)
+    console.log(finalPrice);
+    priceArray =[]
+  })
 }
 
-
 // quantity change will reflect on sub total and total price
-$(document).on('input',$(".test").children(".quantity").children("input").val(), function() {
+$(document).on('input', ".input-value", function() {
     subTotalCreater();
     totalPriceFigure();
 })
@@ -32,42 +35,40 @@ $(document).on('input',$(".test").children(".quantity").children("input").val(),
  var rowDelete = function(event){
    $(document).on("click", '.cancel', function(event){
      $(this).closest("tr").remove()
+     subTotalCreater();
+     totalPriceFigure();
    })}
- //
- //   $(".test").children(".quantity").children("button").on("click", function(event){
- //     // $(event.target).parent().parent().remove()
- //     $(this).closest("tr").remove()
- //     subTotalCreater();
- //     totalPriceFigure();
- //   })
- // }
 
 // creating new items
 var newItemCreation = function(){
-    $("tr:last() td.quantity").children(".create").on("click", function(){
+
+    $(document).on("click", ".create", function(){
     var newName = $("tr:last() td").first().children("input").val()
     var newUnitPrice = parseFloat($("tr:last() td.unit-price").children("input").val())
     var newQuantity = parseFloat($("tr:last() td.quantity input").val())
     var newInsert =$(`
-      <tr>
+      <tr class="test">
         <td>${newName}</td>
         <td class="unit-price">${newUnitPrice}</td>
         <td class="quantity">
           <label for="">QTY</label>
-          <input type="text" value=${newQuantity}>
+          <input class="input-value" type="text" value=${newQuantity}>
           <button class="cancel">Cancel</button>
         </td>
+        <td class="sub-total"></td>
       </tr>`)
-      console.log(newInsert);
     newInsert.insertBefore($("tr").last())
-    })
+    subTotalCreater();
+    totalPriceFigure();
+    $("tr:last() td").first().children("input").val("")
+    $("tr:last() td.unit-price").children("input").val("")
+    $("tr:last() td.quantity input").val("")
+  });
 }
+
  $(document).ready(function() {
    subTotalCreater();
    totalPriceFigure();
    rowDelete();
    newItemCreation();
  });
-
-
-// new item後の承継と合計価格がずれている。document.onの使い方のはず
